@@ -15,11 +15,11 @@ class MemoryAgent:
         )
         self.vector_store = vector_store
         self.system_prompt = PromptTemplate.from_template("""
-            You are an AI assistant with an epistemological memory system.
+            You are an AI assistant with a memory system.
             Your task is to extract and store relevant memory information from user queries.
-            The information should be stored in a vector store, so that it can be retrieved later.
             Analyze the following query and identify any personal or relevant information that should be remembered:
-            Query: {query}
+
+            Query: {user_query}
             
             Extract relevant details like:
             - Name
@@ -31,16 +31,7 @@ class MemoryAgent:
             It does not need to contain all of them, if one is present, then it is enough.
             
             If no relevant information is found, return "No memorable information".
-            Otherwise, return the information in a clear format.
-
-            Return the answer as a JSON, with the following keys:
-            - query: The user query
-            - extracted_memory: The extracted memory information as a string.
-            Example:
-            {
-                "query": "Do you remember my name?",
-                "extracted_memory": "The user name is Matheus"
-            }
+            Otherwise, return the information in a clear format as a single paragraph.
             """)
 
     def _memory_extraction_step(
@@ -48,8 +39,7 @@ class MemoryAgent:
         query: str, 
         vector_store: VectorStore) -> Dict[str, str]:
         # Extract potential memory information
-
-        formatted_prompt = self.system_prompt.format(query=query)
+        formatted_prompt = self.system_prompt.format(user_query=query)
 
         memory_info = self.llm.invoke(formatted_prompt)
         
@@ -71,7 +61,6 @@ class MemoryAgent:
         Args:
             query: The user query
         """
-
         answer = self._memory_extraction_step(query=query, vector_store=self.vector_store)
 
         print("Relevant information extracted:" + answer["extracted_memory"])

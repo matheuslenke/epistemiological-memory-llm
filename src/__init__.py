@@ -80,7 +80,7 @@ if __name__ == "__main__":
             st.session_state.messages.append({"role": "user", "content": user_prompt})
 
         # 1. Analyze the user's prompt and extract relevant memory information
-        # memory_agent.run_memory_agent(query=user_prompt)
+        memory_agent.run_memory_agent(query=user_prompt)
 
         # 2. Retrieve relevant documents from the vector store based on the user's prompt
         docs = retrieve_similar_documents(user_prompt)

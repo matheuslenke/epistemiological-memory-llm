@@ -1,5 +1,5 @@
+from langchain.prompts import PromptTemplate
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from typing import Iterator
 
 class ChatAgent():
@@ -14,8 +14,7 @@ class ChatAgent():
             model="llama3.2:latest",
             temperature=0.7
         )
-                # creating the system prompt
-        self.system_prompt = """You are an AI assistant with an epistemological memory system. 
+        self.system_prompt = PromptTemplate.from_template("""You are an AI assistant with an epistemological memory system. 
         Use the following pieces of retrieved context to answer the user's question, if necessary.
         Always answer the question considering the memory context that is provided, but do not be limited by it.
         
@@ -23,14 +22,13 @@ class ChatAgent():
         
         Query: {query}
         
-        Answer:"""
+        Answer:""")
 
     def chat(self, prompt, context, st) -> Iterator[str]:
         self.chat_history.append(prompt)
 
         # Populate the system prompt with the retrieved context
         system_prompt_fmt = self.system_prompt.format(context=context, query=prompt)
-
 
         print("-- SYS PROMPT --")
         print(system_prompt_fmt)
