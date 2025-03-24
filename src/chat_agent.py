@@ -11,13 +11,10 @@ class ChatAgent():
     def __init__(self):
         self.chat_history = []
         self.llm = OllamaLLM(
-            model="llama3.2:latest",
+            model="deepseek-r1:14b",
             temperature=0.7
         )
-        self.system_prompt = PromptTemplate.from_template("""You are an AI assistant with an epistemological memory system. 
-        Use the following pieces of retrieved context to answer the user's question, if necessary.
-        Always answer the question considering the memory context that is provided, but do not be limited by it.
-        
+        self.system_prompt = PromptTemplate.from_template("""
         Context: {context}
         
         Query: {query}
@@ -34,7 +31,7 @@ class ChatAgent():
         print(system_prompt_fmt)
 
         # adding the system prompt to the message history
-        st.session_state.messages.append({"role": "system", "content": system_prompt_fmt})
+        st.session_state.messages.append({"role": "user", "content": system_prompt_fmt})
 
         # invoking the llm
         stream = self.llm.stream(st.session_state.messages)

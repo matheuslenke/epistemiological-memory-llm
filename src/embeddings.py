@@ -1,27 +1,27 @@
-import os
-import getpass
-from langchain.embeddings import OpenAIEmbeddings
-from sklearn.decomposition import PCA
-import numpy as np
-import matplotlib.pyplot as plt
+from langchain_ollama import OllamaEmbeddings
+from langchain_chroma import Chroma
+from langchain.vectorstores import VectorStore
 
-def generate_embeddings_from_chunks(chunks):
+def initialize_vector_db() -> VectorStore:
+    # initialize embeddings model + vector store
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    vector_store = Chroma(
+        collection_name="memory_collection",
+        embedding_function=embeddings,
+        persist_directory="./chroma_langchain_db",  # Where to save data locally, remove if not necessary
+    )
+    return vector_store
 
-    # Use getpass to securely input the API key
-    api_key = getpass.getpass('Enter your OpenAI API key: ')
+def retrieve_similar_documents(user_prompt: str, vector_store: VectorStore):
+    # creating and invoking the retriever
+    retriever = vector_store.as_retriever(
+        search_type="similarity_score_threshold",
+        search_kwargs={"k": 3, "score_threshold": 0.1},
+    )
 
-    # Set the API key as an environment variable
-    os.environ['OPENAI_API_KEY'] = api_key
+    docs = retriever.invoke(user_prompt)
+    return docs
 
-    # Initialize OpenAI embeddings
-    openai_embeddings = OpenAIEmbeddings()
-
-    # Extract the page content from the Document objects
-    texts = [chunk.page_content for chunk in chunks]
-
-    # Convert the texts into embeddings
-    embeddings = openai_embeddings.embed_documents(texts)
-    return embeddings
 
 # def visualize_embeddings(chunks, embeddings):
 #     # Reduce dimensions to 3D

@@ -21,6 +21,7 @@ langgraph = "^0.3.18"
 langsmith = "^0.3.18"
 langchain-anthropic = "^0.3.10"
 streamlit = "^1.43.2"
+langchain-fireworks = "^0.2.8"
 
 [tool.pyright]
 venvPath="/Users/matheuslenke/Library/Caches/pypoetry/virtualenvs"
