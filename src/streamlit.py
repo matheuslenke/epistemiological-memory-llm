@@ -1,6 +1,20 @@
 import streamlit as st
 
 def initialize_streamlit():
+    """
+    Initializes the Streamlit application interface.
+    
+    This function sets up the main components of the Streamlit chat interface including:
+    - Page configuration (title, icon, layout)
+    - Sidebar with usage guide
+    - Chat message history initialization
+    - Message display system
+    - Chat input field
+    
+    Returns:
+        str: The user's input from the chat input field
+    """
+    
     st.set_page_config(
         page_title="ChatBot com Memória - Matheus Lenke e Eduardo Santos",
         page_icon=":robot:",

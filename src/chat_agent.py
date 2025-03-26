@@ -8,6 +8,7 @@ class ChatAgent():
     uses the vector database to retrieve relevant context for the prompt. The 
     main idea is to the llm be able to use memorized information about the user.
     '''
+    
     def __init__(self):
         self.chat_history = []
         self.llm = OllamaLLM(

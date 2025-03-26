@@ -9,6 +9,24 @@ from src.chunk_extractor import extract_chunks
 import re
 
 class MemoryAgent:
+    """
+    MemoryAgent class is responsible for managing an AI assistant's memory system.
+
+    This class provides functionality to:
+    - Extract and store relevant information from user queries
+    - Use a local LLM (Language Learning Model) for processing
+    - Maintain a vector store for persistent memory storage
+
+    Attributes:
+        vector_store (VectorStore): Storage for vector embeddings of memories
+        llm (OllamaLLM): Local language model instance
+        system_prompt (PromptTemplate): Template for memory extraction prompts
+
+    Methods:
+        use_local_llm(): Initializes the local LLM
+        _memory_extraction_step(query, vector_store): Extracts and stores memory information
+        run_memory_agent(query): Main method to process queries and extract memories
+    """
     def __init__(self, vector_store: VectorStore):
         # Using a Local LLM
         self.use_local_llm()
