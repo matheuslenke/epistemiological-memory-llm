@@ -85,7 +85,7 @@ if you want to use a different LLM, you need to modify the `memory_agent.py` fil
     poetry install
     ```
 
-4. Copy `.env.example` to `.env` and configure your environment variables
+4. Copy `.env.example` to `.env` and configure your environment variables (only if changing to use API \<not implemented yet\>)
 
 ## Running the Application
 
@@ -113,11 +113,13 @@ The application works in the following way:
 
 ```none
 src/
+
+├── __init__.py        # Main application entry point
 ├── chat_agent.py      # Handles conversation and response generation
 ├── memory_agent.py    # Extracts and stores memory information
 ├── chunk_extractor.py # Handles text chunking for storage
 ├── embeddings.py      # Manages vector embeddings
-└── database/         # Vector database management
+├── streamlig.py      # Manages streamlit configuration
 ```
 
 ## Dependencies
